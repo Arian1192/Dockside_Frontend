@@ -13,7 +13,7 @@ const Navbar = () => {
   return (
     <div className="bg-primary p-4 flex justify-between text-white fixed z-10 w-full top-0">
       <div>
-        <h1 className="font-bold py-2">SupportTrack</h1>
+        <h1 className="font-bold py-2">Dock<span className=" text-purple-500">Side</span></h1>
       </div>
 
       <DropdownMenu>

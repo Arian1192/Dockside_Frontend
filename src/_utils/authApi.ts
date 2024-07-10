@@ -1,23 +1,15 @@
 import { RegisterData, LoginData } from '@/components/AuthForm/AuthForm';
-import axios from 'axios'
+import {api} from './index';
 
-const api = axios.create({
-    baseURL : "http://localhost:3000"
-})
-
-
-const register = async ( data : RegisterData) => {
+export const register = async (data: RegisterData) => {
     console.log("Data on API.REGISTER", data)
     const response = await api.post("/auth/register", data)
-    console.log(response);
+    console.log("Response on API.REGISTER", response)
+    return response
 }
 
-const login = async (data: LoginData) => {
+export const login = async (data: LoginData) => {
+    console.log("Data on API.LOGIN", data)
     const response = await api.post("/auth/login", data)
-    console.log(response)
-}
-
-export default {
-    register,
-    login
+    return response
 }

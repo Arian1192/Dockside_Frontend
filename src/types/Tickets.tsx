@@ -1,3 +1,4 @@
+"use client";
 import React, { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { ArrowUpDown, MoreHorizontal } from "lucide-react"
@@ -21,7 +22,12 @@ export type Ticket = {
   createdAt: Date;
   updatedAt: Date;
   closedAt: Date;
-  creatorId: string;
+  creatorId: {
+    _id: string;
+    name: string;
+    email: string;
+    role: string;
+  };
   agentId: string;
   categoryId: string;
   comments: Array<{ _id: string; content: string; createdAt: Date; updatedAt: Date }>;
@@ -40,143 +46,6 @@ enum PRIORITY {
   HIGH = "high",
 }
 
-export const Tickets: Ticket[] = [
-  {
-    _id: "9078243983441",
-    title: "TK-01",
-    description: "This is a description",
-    status: Status.OPEN,
-    priority: PRIORITY.HIGH,
-    createdAt: new Date(),
-    updatedAt: new Date(),
-    closedAt: new Date(),
-    creatorId: "9078243983443",
-    agentId: "9078243983443",
-    categoryId: "9078243983443",
-    comments: [
-      {
-        _id: "9078243983443",
-        content: "This is a comment",
-        createdAt: new Date(),
-        updatedAt: new Date(),
-      },
-      {
-        _id: "9078243983443",
-        content: "This is a comment",
-        createdAt: new Date(),
-        updatedAt: new Date(),
-      },
-    ],
-  },
-  {
-    _id: "9078243983487",
-    title: "TK-02",
-    description: "This is a description",
-    status: Status.OPEN,
-    priority: PRIORITY.LOW,
-    createdAt: new Date(),
-    updatedAt: new Date(),
-    closedAt: new Date(),
-    creatorId: "9078243983443",
-    agentId: "9078243983443",
-    categoryId: "9078243983443",
-    comments: [
-      {
-        _id: "9078243983443",
-        content: "This is a comment",
-        createdAt: new Date(),
-        updatedAt: new Date(),
-      },
-      {
-        _id: "9078243983443",
-        content: "This is a comment",
-        createdAt: new Date(),
-        updatedAt: new Date(),
-      },
-    ],
-  },
-  {
-    _id: "9078243983442",
-    title: "TK-02",
-    description: "This is a description",
-    status: Status.OPEN,
-    priority: PRIORITY.LOW,
-    createdAt: new Date(),
-    updatedAt: new Date(),
-    closedAt: new Date(),
-    creatorId: "9078243983443",
-    agentId: "9078243983443",
-    categoryId: "9078243983443",
-    comments: [
-      {
-        _id: "9078243983443",
-        content: "This is a comment",
-        createdAt: new Date(),
-        updatedAt: new Date(),
-      },
-      {
-        _id: "9078243983443",
-        content: "This is a comment",
-        createdAt: new Date(),
-        updatedAt: new Date(),
-      },
-    ],
-  },
-  {
-    _id: "9078243983412",
-    title: "TK-02",
-    description: "This is a description",
-    status: Status.OPEN,
-    priority: PRIORITY.LOW,
-    createdAt: new Date(),
-    updatedAt: new Date(),
-    closedAt: new Date(),
-    creatorId: "9078243983443",
-    agentId: "9078243983443",
-    categoryId: "9078243983443",
-    comments: [
-      {
-        _id: "9078243983443",
-        content: "This is a comment",
-        createdAt: new Date(),
-        updatedAt: new Date(),
-      },
-      {
-        _id: "9078243983434",
-        content: "This is a comment",
-        createdAt: new Date(),
-        updatedAt: new Date(),
-      },
-    ],
-  },
-  {
-    _id: "9078243983445",
-    title: "TK-02",
-    description: "This is a description",
-    status: Status.OPEN,
-    priority: PRIORITY.LOW,
-    createdAt: new Date(),
-    updatedAt: new Date(),
-    closedAt: new Date(),
-    creatorId: "9078243983443",
-    agentId: "9078243983443",
-    categoryId: "9078243983443",
-    comments: [
-      {
-        _id: "9078243983443",
-        content: "This is a comment",
-        createdAt: new Date(),
-        updatedAt: new Date(),
-      },
-      {
-        _id: "9078243983443",
-        content: "This is a comment",
-        createdAt: new Date(),
-        updatedAt: new Date(),
-      },
-    ],
-  },
-];
   export const columns = [
     {
       accessorKey: "_id",
@@ -264,7 +133,9 @@ export const Tickets: Ticket[] = [
               </DropdownMenuItem>
               <DropdownMenuSeparator />
               <DropdownMenuItem onClick={() => {
-                setSelectedTicketId(ticket._id);
+                // setSelectedTicketId(ticket._id);
+                setSelectedTicketId(ticket._id)
+                console.log(ticket._id)
               }}>
                 View Ticket
               </DropdownMenuItem>
@@ -276,10 +147,20 @@ export const Tickets: Ticket[] = [
     },
   ];
 
- const TicketTable = () => {
-  const [selectedTicketId, setSelectedTicketId] = useState<string | null>(null);
-
-    return <DataTable columns={columns} data={Tickets}/>
+ const TicketTable = ({tickets, isLoading}) => {
+   return (
+     <>
+       {!isLoading ? (
+          <DataTable
+            data={tickets}
+            columns={columns}
+          />
+        ) : (
+          <div>Loading...</div>
+        
+       )}
+     </>
+    )
     
   }
 

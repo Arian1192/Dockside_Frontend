@@ -22,7 +22,13 @@ const Sidebar = () => {
                 <CommandGroup heading="Suggestions">
                     <CommandItem><Link href={'/'}>
                             Dashboard
-                            </Link></CommandItem>
+                    </Link>
+                    </CommandItem>
+                     <CommandItem>
+                            <Link href={'/departments'}>
+                            Departments
+                            </Link>
+                    </CommandItem>
                     <CommandItem>
                          <Link href={'/tickets'}>
                             Tickets
