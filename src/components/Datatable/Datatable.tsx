@@ -33,7 +33,6 @@ export function DataTable<TData extends Ticket, TValue>({
 	columns,
 	data,
 }: DataTableProps<TData, TValue>) {
-	console.log('DATA', data);
 	const [sorting, setSorting] = useState<SortingState>([]);
 	const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
 	const [filterValue, setFilterValue] = useState('');
@@ -55,8 +54,6 @@ export function DataTable<TData extends Ticket, TValue>({
 		},
 	});
 
-	console.log(table.getRowModel().rows.length);
-
 	const handleFilterChange = (event: React.ChangeEvent<HTMLInputElement>) => {
 		const value = event.target.value;
 		setFilterValue(value);
@@ -66,7 +63,7 @@ export function DataTable<TData extends Ticket, TValue>({
 	const { selectedTicketId } = useTicketContext();
 
 	return (
-		<div>
+		<div className='w-full'>
 			<div className="flex items-center py-4">
 				<Input
 					placeholder="Filter by ID, title, status, or priority ..."

@@ -19,7 +19,6 @@ interface IProps {
 
 export function TicketContextProvider({children} : IProps){
     const [selectedTicketId, setSelectedTicketId] = useState<string | null>("");
-    console.log("selectedTicketId", selectedTicketId)
 
     return(
         <TicketContext.Provider value={{selectedTicketId, setSelectedTicketId}}>
