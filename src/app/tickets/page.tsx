@@ -56,9 +56,9 @@ export default function Page() {
 		<>
 			{domLoaded && (
 				<>
-					<Drawer>
-						<DrawerTrigger asChild>
-							<Button variant="outline">Create Ticket</Button>
+					{/* <Drawer>
+						<DrawerTrigger asChild className="absolute top-24 right-10">
+							<Button variant="activate">Create Ticket</Button>
 						</DrawerTrigger>
 						<DrawerContent>
 							<div className="mx-auto w-full max-w-sm">
@@ -69,9 +69,12 @@ export default function Page() {
 									form={form}
 								>
 									<div className="w-full h-64 mt-5">
-										<CardTicket currentStep={currentStep} form={form} departments={user?.departments} />
+										<CardTicket
+											currentStep={currentStep}
+											form={form}
+											departments={user?.departments}
+										/>
 									</div>
-									z
 								</Stepper>
 
 								<DrawerFooter>
@@ -81,7 +84,7 @@ export default function Page() {
 								</DrawerFooter>
 							</div>
 						</DrawerContent>
-					</Drawer>
+					</Drawer> */}
 					<TicketTable tickets={tickets?.data} isLoading={isLoading} />
 				</>
 			)}

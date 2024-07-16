@@ -15,6 +15,7 @@ import {
 	SelectContent,
 	SelectItem,
 } from '@/components/ui/select';
+import { Textarea } from '../ui/textarea';
 
 const Title = ({ currentStep }: { currentStep: number }) => {
 	switch (currentStep) {
@@ -50,7 +51,7 @@ const CardContentSection = ({
 		case 0:
 			return <Input {...register('title')} />;
 		case 1:
-			return <Input {...register('description')} />;
+			return <Textarea {...register('description')} />;
 		case 2:
 			return (
 				<Select
@@ -74,7 +75,7 @@ const CardContentSection = ({
 					onValueChange={(value) => handleSelectChange('priority', value)}
 				>
 					<SelectTrigger className="w-[180px]">
-						<SelectValue placeholder="Department" />
+						<SelectValue placeholder="Priority" />
 					</SelectTrigger>
 					<SelectContent>
 						<SelectItem value="low">Low</SelectItem>
@@ -101,7 +102,7 @@ const CardTicket = ({
 	return (
 		<Card>
 			<CardHeader>
-				<CardTitle className="text-xl">Create ticket title</CardTitle>
+				<CardTitle className="text-xl">Create new Ticket</CardTitle>
 				<CardDescription>
 					<Title currentStep={currentStep} />
 				</CardDescription>

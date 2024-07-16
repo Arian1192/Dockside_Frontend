@@ -105,7 +105,7 @@ const Stepper = ({
 			</div>
 			{children}
 
-			<div className="flex justify-center mt-2 gap-4">
+			<div className="flex justify-center mt-10 gap-4">
 				<button
 					className={`${
 						currentStep === 0 &&
