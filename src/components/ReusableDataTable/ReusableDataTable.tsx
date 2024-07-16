@@ -131,8 +131,12 @@ export function ReusableDataTable<TData, TValue>({
 															pageIndex: index,
 														})
 													}
-                                                    isActive={index === pagination.pageIndex}
-                                                    className={index === pagination.pageIndex ? 'bg-primary/20' : ''}
+													isActive={index === pagination.pageIndex}
+													className={
+														index === pagination.pageIndex
+															? 'bg-primary/20'
+															: ''
+													}
 												>
 													{index + 1}
 												</PaginationLink>
@@ -196,7 +200,7 @@ export function ReusableDataTable<TData, TValue>({
 						table.getRowModel().rows.map((row) => (
 							<TableRow key={row.id}>
 								{row.getVisibleCells().map((cell) => (
-									<TableCell key={cell.id}>
+									<TableCell key={cell.id} align="left" >
 										{flexRender(cell.column.columnDef.cell, cell.getContext())}
 									</TableCell>
 								))}

@@ -49,7 +49,9 @@ const Stepper = ({
 	const authMutation = useMutation({
 		mutationFn: createTicket,
 		onSuccess: () => {
-			queryClient.invalidateQueries('tickets');
+			queryClient.invalidateQueries({
+				queryKey: ['tickets'],
+			});
 			setCurrentStep(0);
 			setTicket({
 				title: '',
@@ -105,7 +107,7 @@ const Stepper = ({
 			</div>
 			{children}
 
-			<div className="flex justify-center mt-10 gap-4">
+			<div className="flex justify-center mt-2 gap-4">
 				<button
 					className={`${
 						currentStep === 0 &&

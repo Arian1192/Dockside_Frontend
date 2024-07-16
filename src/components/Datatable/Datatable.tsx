@@ -89,9 +89,9 @@ export function DataTable<TData extends Ticket, TValue>({
 	const [currentStep, setCurrentStep] = useState<number>(0);
 	return (
 		<div className="w-full">
-			<div className="flex items-center py-4 gap-2">
+			<div className="flex items-center py-6 gap-2">
 				<Drawer>
-					<DrawerTrigger asChild className='ml-4'>
+					<DrawerTrigger asChild className="ml-4">
 						<Button variant="activate">Create Ticket</Button>
 					</DrawerTrigger>
 					<DrawerContent>
@@ -102,7 +102,7 @@ export function DataTable<TData extends Ticket, TValue>({
 								numberOfSteps={4}
 								form={form}
 							>
-								<div className="w-full h-64 mt-5">
+								<div className="w-full h-64 mt-5 mb-10">
 									<CardTicket
 										currentStep={currentStep}
 										form={form}
@@ -148,14 +148,17 @@ export function DataTable<TData extends Ticket, TValue>({
 							table.getRowModel().rows.map((row) => (
 								<React.Fragment key={row.id}>
 									<TableRow data-state={row.getIsSelected() && 'selected'}>
-										{row.getVisibleCells().map((cell) => (
-											<TableCell key={cell.id}>
-												{flexRender(
-													cell.column.columnDef.cell,
-													cell.getContext()
-												)}
-											</TableCell>
-										))}
+										{row.getVisibleCells().map((cell) => {
+											console.log(cell);
+											return (
+												<TableCell key={cell.id}>
+													{flexRender(
+														cell.column.columnDef.cell,
+														cell.getContext()
+													)}
+												</TableCell>
+											);
+										})}
 									</TableRow>
 									{selectedTicketId === row.original._id && (
 										<TableRow>

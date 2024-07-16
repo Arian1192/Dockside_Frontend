@@ -1,5 +1,4 @@
 import type { Config } from "tailwindcss"
-import animations from '@midudev/tailwind-animations'
 const {
   default: flattenColorPalette,
 } = require("tailwindcss/lib/util/flattenColorPalette");
@@ -83,7 +82,7 @@ const config = {
       animation: {
         "accordion-down": "accordion-down 0.2s ease-out",
         "accordion-up": "accordion-up 0.2s ease-out",
-        "aurota": "aurora 60s infinite linear",
+        "aurora": "aurora 60s infinite linear",
       },
     },
   },
