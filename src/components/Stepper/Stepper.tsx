@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { useAuthContext } from '@/_context/AuthContext';
 import { createTicket } from '@/_utils/apiTickets';
+import { useSocketContext } from '@/_context/SocketContext';
 interface IStepperProps {
 	numberOfSteps: number;
 	isVertical?: boolean;
@@ -26,6 +27,7 @@ const Stepper = ({
 	children,
 	form,
 }: IStepperProps) => {
+	const { socket } = useSocketContext();
 	const [ticket, setTicket] = useState<ITicket>({
 		title: '',
 		description: '',
@@ -63,7 +65,6 @@ const Stepper = ({
 	});
 
 	const onSubmit = (data: any) => {
-		console.log('data', data);
 		authMutation.mutate({ ...data, creatorId: user?.sub });
 	};
 

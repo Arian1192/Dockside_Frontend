@@ -32,6 +32,8 @@ import { useState } from 'react';
 import { Input } from '../ui/input';
 import { Button } from '../ui/button';
 import { ArrowUpDown } from 'lucide-react';
+import TicketInformationCard from '../TicketInformationCard/TicketInformationCard';
+import { useTicketContext } from '@/_context/TicketContext';
 
 interface IReusableDataTableProps<TData, TValue> {
 	_path: string;
@@ -41,6 +43,8 @@ interface IReusableDataTableProps<TData, TValue> {
 	filter?: boolean;
 	sort?: boolean;
 	pageSize?: number;
+	children?: React.ReactNode;
+	_params?: any;
 }
 
 export function ReusableDataTable<TData, TValue>({
@@ -51,6 +55,8 @@ export function ReusableDataTable<TData, TValue>({
 	filter = false,
 	sort = false,
 	pageSize = 12,
+	children,
+	_params,
 }: IReusableDataTableProps<TData, TValue>) {
 	const [pagination, setPagination] = useState<PaginationState>({
 		pageIndex: 0,
@@ -61,11 +67,12 @@ export function ReusableDataTable<TData, TValue>({
 	const [filterValue, setFilterValue] = useState('');
 	const [globalFilter, setGlobalFilter] = useState('');
 
-	const { data, isLoading } = useQuery({
-		queryKey: [_path],
+	const { data } = useQuery({
+		queryKey: [_path, _params],
 		queryFn: () => _apiFunc(),
 	});
-	console.log(data?.data);
+
+	const { selectedTicketId } = useTicketContext();
 
 	const table = useReactTable({
 		data: data?.data || [],
@@ -89,17 +96,14 @@ export function ReusableDataTable<TData, TValue>({
 
 	const handleFilterChange = (event: React.ChangeEvent<HTMLInputElement>) => {
 		const value = event.target.value;
-		console.log(value);
 		setFilterValue(value);
 		setGlobalFilter(value);
 	};
 
-	console.log(table.getPageCount());
-
-	//TODO: REFACTOR CONDITIONAL RENDERING OF FILTER AND PAGINATION
 	return (
-		<div className=" p-3">
-			<div className="w-full flex justify-evenly items-center mb-12">
+		<div className="p-2 -z-50">
+			<div className="w-full flex justify-evenly items-center mb-6">
+				{children}
 				{filter && (
 					<Input
 						placeholder="Filter"
@@ -198,13 +202,25 @@ export function ReusableDataTable<TData, TValue>({
 				<TableBody>
 					{table.getRowModel().rows.length > 0 ? (
 						table.getRowModel().rows.map((row) => (
-							<TableRow key={row.id}>
-								{row.getVisibleCells().map((cell) => (
-									<TableCell key={cell.id} align="left" >
-										{flexRender(cell.column.columnDef.cell, cell.getContext())}
-									</TableCell>
-								))}
-							</TableRow>
+							<>
+								<TableRow key={row.id}>
+									{row.getVisibleCells().map((cell) => (
+										<TableCell key={cell.id} align="left">
+											{flexRender(
+												cell.column.columnDef.cell,
+												cell.getContext()
+											)}
+										</TableCell>
+									))}
+								</TableRow>
+								{selectedTicketId === row.original._id && (
+									<TableRow>
+										<TableCell colSpan={_columns.length}>
+											<TicketInformationCard ticketInfo={row.original} />
+										</TableCell>
+									</TableRow>
+								)}
+							</>
 						))
 					) : (
 						<TableRow>

@@ -13,6 +13,7 @@ import {
 } from '@/components/ui/dropdown-menu';
 import { useTicketContext } from '@/_context/TicketContext';
 import { Badge } from '@/components/ui/badge';
+import { useSocketContext } from '@/_context/SocketContext';
 
 export type Ticket = {
 	_id: string;
@@ -64,7 +65,6 @@ export const columns = [
 					onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
 				>
 					ID
-					<ArrowUpDown className="ml-2 h-4 w-4" />
 				</Button>
 			);
 		},
@@ -80,7 +80,6 @@ export const columns = [
 					onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
 				>
 					Title
-					<ArrowUpDown className="ml-2 h-4 w-4" />
 				</Button>
 			);
 		},
@@ -96,7 +95,6 @@ export const columns = [
 					onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
 				>
 					Status
-					<ArrowUpDown className="ml-2 h-4 w-4" />
 				</Button>
 			);
 		},
@@ -119,7 +117,6 @@ export const columns = [
 					onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
 				>
 					Priority
-					<ArrowUpDown className="ml-2 h-4 w-4" />
 				</Button>
 			);
 		},
@@ -131,6 +128,13 @@ export const columns = [
 		cell: ({ row }: any) => {
 			const ticket = row.original;
 			const { setSelectedTicketId } = useTicketContext();
+			const { socket } = useSocketContext();
+			const handleRequestConnection = (email: string) => {
+				console.log('Requesting connection');
+				socket?.emit('requestControl', {
+					data: email,
+				});
+			};
 			return (
 				<DropdownMenu>
 					<DropdownMenuTrigger asChild>
@@ -142,16 +146,25 @@ export const columns = [
 					<DropdownMenuContent align="end">
 						<DropdownMenuLabel>Actions</DropdownMenuLabel>
 						<DropdownMenuItem
-							onClick={() => navigator.clipboard.writeText(ticket._id)}
+							onClick={() => {
+								console.log(ticket);
+								navigator.clipboard.writeText(ticket._id);
+							}}
 						>
 							Copy ticket id
 						</DropdownMenuItem>
 						<DropdownMenuSeparator />
 						<DropdownMenuItem
 							onClick={() => {
-								// setSelectedTicketId(ticket._id);
+								console.log(ticket);
+								handleRequestConnection(ticket.creatorId.email);
+							}}
+						>
+							Request Connection
+						</DropdownMenuItem>
+						<DropdownMenuItem
+							onClick={() => {
 								setSelectedTicketId(ticket._id);
-								console.log(ticket._id);
 							}}
 						>
 							View Ticket
@@ -164,21 +177,8 @@ export const columns = [
 	},
 ];
 
-interface TicketTableProps {
-	tickets: Ticket[];
-	isLoading: boolean;
-}
-
-const TicketTable = ({ tickets, isLoading }: TicketTableProps) => {
-	return (
-		<>
-			{!isLoading ? (
-				<DataTable data={tickets} columns={columns} />
-			) : (
-				<div>Loading...</div>
-			)}
-		</>
-	);
+const TicketTable = () => {
+	return <DataTable />;
 };
 
 export default TicketTable;

@@ -26,7 +26,9 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { cn } from '@/lib/utils';
 import { setAccesTokenToLocalStorage } from '@/_utils';
 import { useRouter } from 'next/navigation';
-import { useAuthContext } from '@/_context/AuthContext';
+
+import { useSocketContext } from '@/_context/SocketContext';
+import { JwtPayload, jwtDecode } from 'jwt-decode';
 
 const RegisterSchema = z.object({
 	name: z.string().min(2),
@@ -61,6 +63,14 @@ export interface LoginData {
 export function AuthForm() {
 	const router = useRouter();
 	const [activeTab, setActiveTab] = useState('signin');
+	const { socket } = useSocketContext();
+
+	const emitSocketUserIsOnline = (user: JwtPayload) => {
+		socket.emit('user:online', {
+			data: user,
+		});
+	};
+
 	const registerForm = useForm<z.infer<typeof RegisterSchema>>({
 		resolver: zodResolver(RegisterSchema),
 		defaultValues: {
@@ -79,8 +89,6 @@ export function AuthForm() {
 		},
 	});
 	const { reset } = loginForm;
-
-	const { setUser } = useAuthContext();
 
 	function onSubmitRegisterForm(values: z.infer<typeof RegisterSchema>) {
 		console.log(values);
@@ -114,6 +122,8 @@ export function AuthForm() {
 			{
 				onSuccess: (data) => {
 					console.log(data);
+					const user = jwtDecode(data.data.access_token);
+					emitSocketUserIsOnline(user);
 					setAccesTokenToLocalStorage(data.data.access_token);
 					handleAuthSuccess(
 						'You have been logged in successfully',
@@ -330,7 +340,4 @@ export function AuthForm() {
 			</Tabs>
 		</div>
 	);
-}
-function jwtDecode(access_token: any) {
-	throw new Error('Function not implemented.');
 }

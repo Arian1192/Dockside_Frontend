@@ -17,7 +17,6 @@ import {
 	PersonStanding,
 	User,
 } from 'lucide-react';
-import { stat } from 'fs';
 const TicketInformationCard = ({ ticketInfo }: { ticketInfo: Ticket }) => {
 	const {
 		_id,
@@ -68,7 +67,6 @@ const TicketInformationCard = ({ ticketInfo }: { ticketInfo: Ticket }) => {
 		}
 	};
 
-	console.log(ticketInfo);
 	return (
 		<>
 			<div className="w-full max-w-4xl mx-auto p-6 bg-secondary-foreground text-slate-100 rounded-lg shadow-lg">

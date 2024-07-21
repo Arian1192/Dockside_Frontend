@@ -6,6 +6,7 @@ import { TicketContextProvider } from '@/_context/TicketContext';
 import { ReactQueryClientProvider } from '@/components/ReactQueryClientProviders/ReactQueryClientProvider';
 import { Toaster } from '@/components/ui/sonner';
 import { AuthContextProvider } from '@/_context/AuthContext';
+import { SocketContextProvider } from '@/_context/SocketContext';
 const inter = Inter({ subsets: ['latin'] });
 
 export const metadata: Metadata = {
@@ -25,14 +26,16 @@ export default function RootLayout({
 				<meta name="description" />
 			</head>
 			<ReactQueryClientProvider>
-				<AuthContextProvider>
-					<TicketContextProvider>
-						<body className={`${inter.className}`}>
-							<Container inter={inter}>{children}</Container>
-							<Toaster />
-						</body>
-					</TicketContextProvider>
-				</AuthContextProvider>
+				<SocketContextProvider>
+					<AuthContextProvider>
+						<TicketContextProvider>
+							<body className={`${inter.className}`}>
+								<Container inter={inter}>{children}</Container>
+								<Toaster />
+							</body>
+						</TicketContextProvider>
+					</AuthContextProvider>
+				</SocketContextProvider>
 			</ReactQueryClientProvider>
 		</html>
 	);

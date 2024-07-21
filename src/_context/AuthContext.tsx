@@ -20,7 +20,6 @@ interface IProps {
 
 export function AuthContextProvider({ children }: IProps) {
 	const [user, setUser] = useState<JwtPayload | null>(null);
-	console.log('user', user);
 	return (
 		<AuthContext.Provider value={{ user, setUser }}>
 			{children}
